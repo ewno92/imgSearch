@@ -1,6 +1,10 @@
-import Head from 'next/head';
-import Image from 'next/image';
-
+import Head from "next/head";
+import Image from "next/image";
+import SearchBar from "../components/SearchBar";
 export default function Home() {
-	return <div></div>;
+  return (
+    <div>
+      <SearchBar />
+    </div>
+  );
 }
