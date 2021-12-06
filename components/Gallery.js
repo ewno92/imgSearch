@@ -11,7 +11,7 @@ const Gallery = (props) => {
 			{images &&
 				images.map((image, index) => {
 					return (
-						<Col md={3}>
+						<Col key={index} md={3}>
 							<Link href={`/photos/${image.id}`} key={index}>
 								<Image src={image.webformatURL} width={image.webformatWidth} height={image.webformatHeight} alt={image.tags} />
 							</Link>

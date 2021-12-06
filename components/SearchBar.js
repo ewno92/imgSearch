@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { BsChevronCompactDown } from "react-icons/bs";
 
-const SearchBar = () => {
-  const [select, setSelect] = useState("images");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("submit");
-  };
+const SearchBar = ({
+  handleSubmit,
+  handleKeyword,
+  search,
+  select,
+  setSelect,
+}) => {
   return (
     <div id="search-bar" className="container d-flex justify-content-center ">
       <div
@@ -24,6 +24,8 @@ const SearchBar = () => {
           className="w-100"
           type="text"
           placeholder="Search images and videos"
+          value={search}
+          onChange={handleKeyword}
         />
       </form>
       <div className="dropdown d-flex justify-content-center align-items-center">
