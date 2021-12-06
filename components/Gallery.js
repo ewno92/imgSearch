@@ -15,7 +15,8 @@ const Gallery = (props) => {
               <Link href={`/photos/${image.id}`}>
                 <a>
                   <Image
-                    src={image.webformatURL}
+                    // src={image.webformatURL}
+                    src={image.largeImageURL}
                     width={image.webformatWidth}
                     height={image.webformatHeight}
                     alt={image.tags}

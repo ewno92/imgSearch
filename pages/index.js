@@ -11,6 +11,7 @@ import { actionCreator } from "../redux/actions/actionsCreator";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import Loading from "../components/Loading";
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
 const { searchImages, searchVideos } = authenticate(PIXABAY_API_KEY);
@@ -48,6 +49,7 @@ const Index = () => {
   };
 
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=`)
@@ -58,7 +60,7 @@ const Index = () => {
       });
   }, []);
 
-  if (!imgs) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <Layout>
@@ -69,7 +71,7 @@ const Index = () => {
       <main>
         <Container className="w-100">
           <Row>
-            <Col>
+            <Col className="mb-3">
               <SearchBar
                 search={search}
                 handleKeyword={handleKeyword}
