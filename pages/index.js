@@ -14,10 +14,10 @@ import { bindActionCreators } from "redux";
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
 const { searchImages, searchVideos } = authenticate(PIXABAY_API_KEY);
-const Index = ({ images }) => {
+const Index = () => {
   const [search, setSearch] = useState("");
   const [select, setSelect] = useState("images");
-  const [imgs, setImgs] = useState(images);
+  const [imgs, setImgs] = useState({});
 
   // console.log(images);
 
@@ -32,26 +32,19 @@ const Index = ({ images }) => {
     console.log(search);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(search);
-    console.log("submit");
-    // if (select === "images") {
-    //   searchImages(search, { per_page: 20 }).then((data) => {
-    //     setImgs(data);
-    //   });
-    // } else {
-    //   searchVideos(search, { per_page: 20 }).then((data) => {
-    //     setImgs(data);
-    //   });
-    // }
+  const fetchImages = async () => {
+    setIsLoading(true);
+    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${search}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setImgs(data);
+        setIsLoading(false);
+      });
   };
 
-  const test = async (e) => {
-    console.log("test");
-    let data = await searchImages("꽃");
-    setImgs(data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchImages();
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -63,16 +56,18 @@ const Index = ({ images }) => {
         setImgs(data);
         setIsLoading(false);
       });
-    console.log("Todos:::::::::::::::::::::", imgs);
   }, []);
+
+  if (!imgs) return <div>Loading...</div>;
 
   return (
     <Layout>
+      {/* redux */}
       {/* <button onClick={() => increment(5)}>+</button>
       <button onClick={() => decrement(5)}>-</button> */}
+      <button onClick={() => console.log(imgs)}>asd</button>
       <main>
         <Container className="w-100">
-          <button onClick={test}>TEST</button>
           <Row>
             <Col>
               <SearchBar
@@ -91,15 +86,6 @@ const Index = ({ images }) => {
       </main>
     </Layout>
   );
-};
-
-export const getServerSideProps = async () => {
-  const images = await searchImages({ per_page: 20, safesearch: false });
-  return {
-    props: {
-      images,
-    },
-  };
 };
 
 export default Index;
