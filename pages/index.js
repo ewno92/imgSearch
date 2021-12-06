@@ -50,7 +50,7 @@ const App = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		fetchImages();
+		fetchImages(1);
 	};
 
 	return (
