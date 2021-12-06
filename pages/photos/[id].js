@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react';
 import Layout from '../../components/Layout';
 import Image from 'next/image';
@@ -16,7 +15,7 @@ const Photo = ({ images }) => {
 				<Container>
 					<Row>
 						<Col md={8}>
-							<Image src={image.previewURL} width={200} height={200} alt={image.tags} />
+							<Image src={image.webformatURL} width={image.webformatWidth} height={image.webformatHeight} alt={image.tags} />
 						</Col>
 						<Col md={4}></Col>
 					</Row>
@@ -37,12 +36,3 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default Photo;
-=======
-import React from "react";
-
-const Index = () => {
-  return <div>asdg</div>;
-};
-
-export default Index;
->>>>>>> b1bb1c3c168708b97b57cf6fdf6c4a310edac9de
