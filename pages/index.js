@@ -32,10 +32,16 @@ const Index = () => {
     setSearch(e.target.value);
     console.log(search);
   };
+  const handleSelect = (e) => {
+    setSelect(e.target.value);
+    console.log(search);
+  };
 
   const fetchImages = async () => {
     setIsLoading(true);
-    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${search}`)
+    fetch(
+      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${search}&per_page=200&safesearch=true`
+    )
       .then((response) => response.json())
       .then((data) => {
         setImgs(data);
@@ -52,11 +58,16 @@ const Index = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=`)
+    fetch(
+      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&safeSearch=true&per_page=100`
+    )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setImgs(data);
         setIsLoading(false);
+        // setTimeout(() => {
+        // }, 500);
       });
   }, []);
 
@@ -67,14 +78,16 @@ const Index = () => {
       {/* redux */}
       {/* <button onClick={() => increment(5)}>+</button>
       <button onClick={() => decrement(5)}>-</button> */}
-      <button onClick={() => console.log(imgs)}>asd</button>
       <main>
         <Container className="w-100">
           <Row>
-            <Col className="mb-3">
+            <Col className="my-3">
               <SearchBar
                 search={search}
+                select={select}
+                setSelect={setSelect}
                 handleKeyword={handleKeyword}
+                handleSelect={handleSelect}
                 handleSubmit={handleSubmit}
               />
             </Col>
