@@ -11,21 +11,21 @@ const Gallery = (props) => {
       {images &&
         images.map((image, index) => {
           return (
-            <Col key={index} xs={4} md={3} lg={2}>
+            <div key={index}>
               <Link href={`/photos/${image.id}`}>
                 <a>
                   <Image
-                    // src={image.webformatURL}
-                    src={image.previewURL}
+                    src={image.webformatURL}
                     width={image.webformatWidth}
                     height={image.webformatHeight}
                     alt={image.tags}
                   />
                 </a>
               </Link>
-            </Col>
+            </div>
           );
         })}
+      hi
     </>
   );
 };

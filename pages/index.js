@@ -1,32 +1,43 @@
-import Head from "next/head";
-import Image from "next/image";
-import SearchBar from "../components/SearchBar";
-import { useState, useEffect } from "react";
-import Gallery from "../components/Gallery";
+import React, { useEffect, useState } from "react";
+import API from "./api/pixabay";
+import Img from "../components/Img";
+import Masonry from "react-masonry-css";
+import InfiniteScroll from "react-infinite-scroller";
 import { Container, Row, Col } from "react-bootstrap";
 import Layout from "../components/Layout";
-import { authenticate } from "pixabay-api";
-//redux
-import { actionCreator } from "../redux/actions/actionsCreator";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
+import SearchBar from "../components/SearchBar";
 
-import Loading from "../components/Loading";
-const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
+let pageNum = 1;
 
-const { searchImages, searchVideos } = authenticate(PIXABAY_API_KEY);
-const Index = () => {
+const App = () => {
+  const [imagesArray, setImagesArray] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
   const [select, setSelect] = useState("images");
   const [imgs, setImgs] = useState({});
 
-  // console.log(images);
+  const fetchImages = (pageNumber) => {
+    API.get("/", { params: { page: pageNumber } })
+      .then((res) => {
+        console.log(res.data);
+        setImagesArray([...imagesArray, ...res.data.hits]);
+        setTotalPages(res.data.totalHits / res.data.hits.length);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  //redux
-  const dispatch = useDispatch();
-  const counter = useSelector((state) => state.counter);
-  const { increment, decrement } = bindActionCreators(actionCreator, dispatch);
-  // console.log("counter: ", counter);
+  // function to fetch images based on the
+  useEffect(() => {
+    fetchImages(pageNum);
+  }, []);
+
+  const breakpointColumnsObj = {
+    default: 6,
+    1200: 3,
+    992: 3,
+    768: 2,
+    576: 1,
+  };
 
   const handleKeyword = (e) => {
     setSearch(e.target.value);
@@ -37,70 +48,50 @@ const Index = () => {
     console.log(search);
   };
 
-  const fetchImages = async () => {
-    setIsLoading(true);
-    fetch(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${search}&per_page=200&safesearch=true`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setImgs(data);
-        setIsLoading(false);
-      });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchImages();
+    fetchImages(1);
   };
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&safeSearch=true&per_page=100`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setImgs(data);
-        setIsLoading(false);
-        // setTimeout(() => {
-        // }, 500);
-      });
-  }, []);
-
-  if (isLoading) return <Loading />;
 
   return (
     <Layout>
-      {/* redux */}
-      {/* <button onClick={() => increment(5)}>+</button>
-      <button onClick={() => decrement(5)}>-</button> */}
-      <main>
-        <Container className="w-100">
-          <Row>
-            <Col className="my-3">
-              <SearchBar
-                search={search}
-                select={select}
-                setSelect={setSelect}
-                handleKeyword={handleKeyword}
-                handleSelect={handleSelect}
-                handleSubmit={handleSubmit}
-              />
-            </Col>
-          </Row>
-        </Container>
-        <Container>
-          <Row data-masonry={`{"percentPosition": ${true}}`}>
-            <Gallery images={imgs} />
-          </Row>
-        </Container>
-      </main>
+      <Container fluid>
+        <Row>
+          <Col>
+            <SearchBar
+              search={search}
+              select={select}
+              setSelect={setSelect}
+              handleKeyword={handleKeyword}
+              handleSelect={handleSelect}
+              handleSubmit={handleSubmit}
+            />
+          </Col>
+        </Row>
+      </Container>
+      <Container fluid>
+        <Row>
+          <Col md={12}>
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={() => fetchImages(++pageNum)}
+              hasMore={pageNum < totalPages ? true : false}
+            >
+              <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className="masonry-grid"
+                columnClassName="masonry-grid_column"
+              >
+                {imagesArray.map((image) => (
+                  <Img key={image.id} {...image} />
+                ))}
+              </Masonry>
+            </InfiniteScroll>
+          </Col>
+        </Row>
+      </Container>
     </Layout>
   );
 };
 
-export default Index;
+export default App;
