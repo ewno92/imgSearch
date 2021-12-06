@@ -57,10 +57,7 @@ const Index = ({ images }) => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      // `https://pixabay.com/api/?key=24678649-c224b16b3b229b01496615e87&q=꽃`
-      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=꽃`
-    )
+    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=`)
       .then((response) => response.json())
       .then((data) => {
         setImgs(data);
@@ -87,10 +84,8 @@ const Index = ({ images }) => {
           </Row>
         </Container>
         <Container>
-          <Row>
-            <Col>
-              <Gallery images={imgs} />
-            </Col>
+          <Row data-masonry={`{"percentPosition": ${true}}`}>
+            <Gallery images={imgs} />
           </Row>
         </Container>
       </main>
