@@ -66,10 +66,8 @@ const Index = ({ images }) => {
 					</Row>
 				</Container>
 				<Container>
-					<Row>
-						<Col>
-							<Gallery images={imgs} />
-						</Col>
+					<Row data-masonry={`{"percentPosition": ${true}}`}>
+						<Gallery images={imgs} />
 					</Row>
 				</Container>
 			</main>
