@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import Layout from '../../components/Layout';
 import Image from 'next/image';
@@ -36,3 +37,12 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default Photo;
+=======
+import React from "react";
+
+const Index = () => {
+  return <div>asdg</div>;
+};
+
+export default Index;
+>>>>>>> b1bb1c3c168708b97b57cf6fdf6c4a310edac9de

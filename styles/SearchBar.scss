@@ -1,0 +1,36 @@
+#search-bar {
+  //   background: gray;
+  height: 58px;
+  border-radius: 7px;
+  border: 1px solid black;
+
+  .icon-container {
+    cursor: pointer;
+    svg {
+      color: gray;
+    }
+  }
+
+  .icon-container:hover {
+    svg {
+      fill: black;
+    }
+  }
+
+  input {
+    border: none;
+    outline: none;
+  }
+  .dropdown {
+    p {
+      color: gray;
+      width: 70px;
+      margin: 0;
+    }
+  }
+  .dropdown:hover {
+    p {
+      color: black;
+    }
+  }
+}
