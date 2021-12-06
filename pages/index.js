@@ -1,89 +1,110 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import SearchBar from '../components/SearchBar';
-import { useState, useEffect } from 'react';
-import Gallery from '../components/Gallery';
-import { Container, Row, Col } from 'react-bootstrap';
-import Layout from '../components/Layout';
-import { authenticate } from 'pixabay-api';
+import Head from "next/head";
+import Image from "next/image";
+import SearchBar from "../components/SearchBar";
+import { useState, useEffect } from "react";
+import Gallery from "../components/Gallery";
+import { Container, Row, Col } from "react-bootstrap";
+import Layout from "../components/Layout";
+import { authenticate } from "pixabay-api";
 //redux
-import { actionCreator } from '../redux/actions/actionsCreator';
-import { useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { actionCreator } from "../redux/actions/actionsCreator";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
 
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
 const { searchImages, searchVideos } = authenticate(PIXABAY_API_KEY);
 const Index = ({ images }) => {
-	const [search, setSearch] = useState('');
-	const [select, setSelect] = useState('images');
-	const [imgs, setImgs] = useState(images);
+  const [search, setSearch] = useState("");
+  const [select, setSelect] = useState("images");
+  const [imgs, setImgs] = useState(images);
 
-	// console.log(images);
+  // console.log(images);
 
-	//redux
-	const dispatch = useDispatch();
-	const counter = useSelector((state) => state.counter);
-	const { increment, decrement } = bindActionCreators(actionCreator, dispatch);
-	console.log('counter: ', counter);
+  //redux
+  const dispatch = useDispatch();
+  const counter = useSelector((state) => state.counter);
+  const { increment, decrement } = bindActionCreators(actionCreator, dispatch);
+  // console.log("counter: ", counter);
 
-	const handleKeyword = (e) => {
-		setSearch(e.target.value);
-	};
+  const handleKeyword = (e) => {
+    setSearch(e.target.value);
+    console.log(search);
+  };
 
-	// const handleSubmit = (e) => {
-	//   e.preventDefault();
-	//   if (select === "images") {
-	//     searchImages(search, { per_page: 20 }).then((data) => {
-	//       setImgs(data);
-	//     });
-	//   } else {
-	//     searchVideos(search, { per_page: 20 }).then((data) => {
-	//       setImgs(data);
-	//     });
-	//   }
-	// };
-	const test = async (e) => {
-		console.log('test');
-		let data = await searchImages('people');
-		setImgs(data);
-	};
-	return (
-		<Layout>
-			<button onClick={() => increment(5)}>+</button>
-			<button onClick={() => decrement(5)}>-</button>
-			<main>
-				<Container className="w-100">
-					<button onClick={test}>TEST</button>
-					<Row>
-						<Col>
-							{/* <SearchBar
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(search);
+    console.log("submit");
+    // if (select === "images") {
+    //   searchImages(search, { per_page: 20 }).then((data) => {
+    //     setImgs(data);
+    //   });
+    // } else {
+    //   searchVideos(search, { per_page: 20 }).then((data) => {
+    //     setImgs(data);
+    //   });
+    // }
+  };
+
+  const test = async (e) => {
+    console.log("test");
+    let data = await searchImages("꽃");
+    setImgs(data);
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(
+      // `https://pixabay.com/api/?key=24678649-c224b16b3b229b01496615e87&q=꽃`
+      `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=꽃`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setImgs(data);
+        setIsLoading(false);
+      });
+    console.log("Todos:::::::::::::::::::::", imgs);
+  }, []);
+
+  return (
+    <Layout>
+      {/* <button onClick={() => increment(5)}>+</button>
+      <button onClick={() => decrement(5)}>-</button> */}
+      <main>
+        <Container className="w-100">
+          <button onClick={test}>TEST</button>
+          <Row>
+            <Col>
+              <SearchBar
                 search={search}
                 handleKeyword={handleKeyword}
                 handleSubmit={handleSubmit}
-              /> */}
-						</Col>
-					</Row>
-				</Container>
-				<Container>
-					<Row>
-						<Col>
-							<Gallery images={imgs} />
-						</Col>
-					</Row>
-				</Container>
-			</main>
-		</Layout>
-	);
+              />
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col>
+              <Gallery images={imgs} />
+            </Col>
+          </Row>
+        </Container>
+      </main>
+    </Layout>
+  );
 };
 
 export const getServerSideProps = async () => {
-	const images = await searchImages({ per_page: 20, safesearch: false });
-	return {
-		props: {
-			images,
-		},
-	};
+  const images = await searchImages({ per_page: 20, safesearch: false });
+  return {
+    props: {
+      images,
+    },
+  };
 };
 
 export default Index;
