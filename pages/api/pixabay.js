@@ -8,7 +8,7 @@ const API = axios.create({
 		'Content-Type': 'application/json',
 	},
 	params: {
-		key: '24678649-c224b16b3b229b01496615e87',
+		key: PIXABAY_API_KEY,
 		safesearch: true,
 	},
 });

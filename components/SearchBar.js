@@ -6,6 +6,7 @@ import { BsChevronCompactDown } from "react-icons/bs";
 const SearchBar = ({
   handleSubmit,
   handleKeyword,
+  handleSelect,
   search,
   select,
   setSelect,
@@ -44,10 +45,10 @@ const SearchBar = ({
         </a>
 
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li onClick={() => setSelect("images")}>
+          <li onClick={(e) => setSelect("images")}>
             <a className="dropdown-item">images</a>
           </li>
-          <li onClick={() => setSelect("videos")}>
+          <li onClick={(e) => setSelect("videos")}>
             <a className="dropdown-item">videos</a>
           </li>
         </ul>

@@ -3,13 +3,19 @@ import API from './api/pixabay';
 import Img from '../components/Img';
 import Masonry from 'react-masonry-css';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Container, Row, Col } from 'react-bootstrap';
+import Layout from '../components/Layout';
+import SearchBar from '../components/SearchBar';
 
 let pageNum = 1;
 
 const App = () => {
 	const [imagesArray, setImagesArray] = useState([]);
 	const [totalPages, setTotalPages] = useState(0);
-	console.log(imagesArray);
+	const [search, setSearch] = useState('');
+	const [select, setSelect] = useState('images');
+	const [imgs, setImgs] = useState({});
+
 	const fetchImages = (pageNumber) => {
 		API.get('/', { params: { page: pageNumber } })
 			.then((res) => {
@@ -33,11 +39,39 @@ const App = () => {
 		576: 1,
 	};
 
+	const handleKeyword = (e) => {
+		setSearch(e.target.value);
+		console.log(search);
+	};
+	const handleSelect = (e) => {
+		setSelect(e.target.value);
+		console.log(search);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		fetchImages();
+	};
+
 	return (
-		<div className="App">
-			<div className="container-fluid">
-				<div className="row">
-					<div className="col-md-12">
+		<Layout>
+			<Container fluid>
+				<Row>
+					<Col>
+						<SearchBar
+							search={search}
+							select={select}
+							setSelect={setSelect}
+							handleKeyword={handleKeyword}
+							handleSelect={handleSelect}
+							handleSubmit={handleSubmit}
+						/>
+					</Col>
+				</Row>
+			</Container>
+			<Container fluid>
+				<Row>
+					<Col md={12}>
 						<InfiniteScroll pageStart={0} loadMore={() => fetchImages(++pageNum)} hasMore={pageNum < totalPages ? true : false}>
 							<Masonry breakpointCols={breakpointColumnsObj} className="masonry-grid" columnClassName="masonry-grid_column">
 								{imagesArray.map((image) => (
@@ -45,10 +79,10 @@ const App = () => {
 								))}
 							</Masonry>
 						</InfiniteScroll>
-					</div>
-				</div>
-			</div>
-		</div>
+					</Col>
+				</Row>
+			</Container>
+		</Layout>
 	);
 };
 
