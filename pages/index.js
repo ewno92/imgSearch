@@ -20,12 +20,13 @@ const Index = ({ images }) => {
   //redux
   const dispatch = useDispatch();
   const counter = useSelector((state) => state.counter);
-  const { increment } = bindActionCreators(actionCreator, dispatch);
+  const { increment, decrement } = bindActionCreators(actionCreator, dispatch);
   console.log("counter: ", counter);
 
   return (
     <Layout>
       <button onClick={() => increment(5)}>+</button>
+      <button onClick={() => decrement(5)}>-</button>
       <main>
         <Container className="w-100">
           <Row>
