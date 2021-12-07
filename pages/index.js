@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import API from "./api/pixabay";
 import Img from "../components/Img";
 import Masonry from "react-masonry-css";
@@ -10,6 +11,7 @@ import SearchBar from "../components/SearchBar";
 let pageNum = 1;
 
 const App = () => {
+  const router = useRouter();
   const [imagesArray, setImagesArray] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
@@ -83,7 +85,19 @@ const App = () => {
                 columnClassName="masonry-grid_column"
               >
                 {imagesArray.map((image) => (
-                  <Img key={image.id} {...image} />
+                  <div
+                    className="img-container px-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      router.push(`/photos/${image.id}`);
+                    }}
+                  >
+                    <Img
+                      sylte={{ cursor: "pointer" }}
+                      key={image.id}
+                      {...image}
+                    />
+                  </div>
                 ))}
               </Masonry>
             </InfiniteScroll>
