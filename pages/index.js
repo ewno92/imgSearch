@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import API from "./api/pixabay";
+import axios from "axios";
 import Img from "../components/Img";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroller";
@@ -17,6 +17,20 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [select, setSelect] = useState("images");
   const [imgs, setImgs] = useState({});
+
+  const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
+
+  const API = axios.create({
+    baseURL: "https://pixabay.com/api/",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    params: {
+      key: PIXABAY_API_KEY,
+      safesearch: true,
+    },
+  });
 
   const fetchImages = (pageNumber) => {
     API.get("/", { params: { page: pageNumber } })
@@ -57,6 +71,13 @@ const App = () => {
 
   return (
     <Layout>
+      <button
+        onClick={() => {
+          fetchImages(1);
+        }}
+      >
+        click
+      </button>
       <Container fluid>
         <Row>
           <Col>
