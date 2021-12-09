@@ -68,11 +68,26 @@ const App = () => {
     // fetchImages(1, search);
   };
 
+  if (imagesArray.length === 0) {
+    return <div>Loading...</div>;
+  }
   return (
     <Layout>
-      <Container fluid>
-        <Row>
-          <Col className="mt-3">
+      <Container
+        fluid
+        style={{
+          backgroundImage: `url(${
+            imagesArray[Math.floor(Math.random() * imagesArray.length)]
+              .webformatURL
+          })`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "600px",
+        }}
+      >
+        <Row style={{ height: "600px" }}>
+          <Col className="align-self-center">
             <SearchBar
               search={search}
               select={select}
@@ -97,19 +112,16 @@ const App = () => {
                 className="masonry-grid"
                 columnClassName="masonry-grid_column"
               >
-                {imagesArray.map((image) => (
+                {imagesArray.map((image, index) => (
                   <div
+                    key={index}
                     className="img-container px-3"
                     style={{ cursor: "pointer" }}
                     onClick={() => {
                       router.push(`/photos/${image.id}`);
                     }}
                   >
-                    <Img
-                      sylte={{ cursor: "pointer" }}
-                      key={image.id}
-                      {...image}
-                    />
+                    <Img sylte={{ cursor: "pointer" }} {...image} />
                   </div>
                 ))}
               </Masonry>
