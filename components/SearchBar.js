@@ -22,14 +22,14 @@ const SearchBar = ({
 
       <form onSubmit={handleSubmit} className="d-flex w-100">
         <input
-          className="w-100"
+          className="w-100 mx-1"
           type="text"
           placeholder="Search images and videos"
           value={search}
           onChange={handleKeyword}
         />
       </form>
-      <div className="dropdown d-flex justify-content-center align-items-center">
+      {/* <div className="dropdown d-flex justify-content-center align-items-center">
         <a
           className=""
           href="#"
@@ -52,7 +52,7 @@ const SearchBar = ({
             <a className="dropdown-item">videos</a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
