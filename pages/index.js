@@ -22,11 +22,10 @@ const App = () => {
 
   const fetchImages = (pageNumber, keyword) => {
     const URL = `https://pixabay.com/api/${select}?key=${PIXABAY_API_KEY}&q=${keyword}&image_type=photo&per_page=12&page=${pageNumber}`;
-    console.log("URL::::", URL);
     axios
       .get(URL)
       .then((res) => {
-        console.log(res.data.hits);
+        // console.log(res.data.hits);
         setImagesArray([...imagesArray, ...res.data.hits]);
         setTotalPages(res.data.totalHits / res.data.hits.length);
       })
@@ -36,6 +35,7 @@ const App = () => {
   // function to fetch images based on the
   useEffect(() => {
     fetchImages(pageNum, search);
+    console.log(imagesArray);
   }, []);
 
   const breakpointColumnsObj = {
@@ -48,11 +48,9 @@ const App = () => {
 
   const handleKeyword = (e) => {
     setSearch(e.target.value);
-    console.log(search);
   };
   const handleSelect = (e) => {
     setSelect(e.target.value);
-    console.log(search);
   };
 
   const handleSubmit = (e) => {
@@ -66,9 +64,6 @@ const App = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(select);
-  }, [select]);
   return (
     <Layout>
       <Container
