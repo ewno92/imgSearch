@@ -7,6 +7,9 @@ import { authenticate } from 'pixabay-api';
 import { BsFillEyeFill } from 'react-icons/bs';
 import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import axios from 'axios';
+
+import { BsDownload } from 'react-icons/bs';
+// BsDownload;
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 const { searchImages } = authenticate(PIXABAY_API_KEY);
 
@@ -73,7 +76,9 @@ const Photo = ({ images }) => {
 								<Row>
 									<Col>
 										<div className="download-container">
-											<div onClick={handlowDownload}>click</div>
+											<button className="btn btn-primary " onClick={handlowDownload}>
+												<BsDownload className="mb-1" /> Download
+											</button>
 										</div>
 									</Col>
 								</Row>
