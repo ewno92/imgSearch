@@ -14,7 +14,7 @@ const Photo = ({ images }) => {
   return (
     <div id="photo-page">
       <Layout>
-        <main>
+        <main className="mt-3">
           <Container>
             <Row>
               <Col md={8}>
@@ -40,14 +40,14 @@ const Photo = ({ images }) => {
                   <Col className="d-flex">
                     <div className="likes d-flex align-items-center justify-content-center">
                       <p className="px-2">
-                        <BsFillHandThumbsUpFill />
+                        <BsFillHandThumbsUpFill className="mb-1" />
                         {` `}
                         {`${image.likes} likes`}
                       </p>
                     </div>
                     <div className="likes d-flex align-items-center justify-content-center">
                       <p className="px-2">
-                        <BsFillEyeFill /> {image.views}
+                        <BsFillEyeFill className="mb-1" /> {image.views}
                       </p>
                     </div>
                   </Col>
