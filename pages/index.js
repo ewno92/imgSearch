@@ -23,11 +23,10 @@ const App = () => {
 
   const fetchImages = (pageNumber, keyword) => {
     const URL = `https://pixabay.com/api/${select}?key=${PIXABAY_API_KEY}&q=${keyword}&image_type=photo&per_page=12&page=${pageNumber}`;
-    console.log("URL::::", URL);
     axios
       .get(URL)
       .then((res) => {
-        console.log(res.data.hits);
+        // console.log(res.data.hits);
         setImagesArray([...imagesArray, ...res.data.hits]);
         setTotalPages(res.data.totalHits / res.data.hits.length);
       })
@@ -49,11 +48,11 @@ const App = () => {
 
   const handleKeyword = (e) => {
     setSearch(e.target.value);
-    console.log(search);
+    // console.log(search);
   };
   const handleSelect = (e) => {
     setSelect(e.target.value);
-    console.log(search);
+    // console.log(search);
   };
 
   const handleSubmit = (e) => {
@@ -67,9 +66,6 @@ const App = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(select);
-  }, [select]);
   return (
     <>
       <Head>
@@ -101,10 +97,11 @@ const App = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-            height: "600px",
+            height: "400px",
+            opacity: "0.6",
           }}
         >
-          <Row style={{ height: "600px" }}>
+          <Row style={{ height: "400px" }}>
             <Col className="align-self-center">
               <SearchBar
                 search={search}
@@ -120,6 +117,7 @@ const App = () => {
         <Container fluid>
           <Row>
             <Col md={12}>
+              {!imagesArray.length && <p className="w-100">no image found</p>}
               {!select && (
                 <InfiniteScroll
                   pageStart={0}
