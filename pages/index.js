@@ -64,22 +64,14 @@ const App = () => {
         });
       });
     });
-    // setTotalPages(0);
-    // fetchImages(1, search);
   };
 
-  if (imagesArray.length === 0) {
-    return <div>Loading...</div>;
-  }
   return (
     <Layout>
       <Container
         fluid
         style={{
-          backgroundImage: `url(${
-            imagesArray[Math.floor(Math.random() * imagesArray.length)]
-              .webformatURL
-          })`,
+          backgroundImage: `url()`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
