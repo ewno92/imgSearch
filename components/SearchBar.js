@@ -39,7 +39,7 @@ const SearchBar = ({
           aria-expanded="false"
         >
           <p className="d-flex justify-content-center align-items-center">
-            {select}
+            {select ? select : "images"}
             <BsChevronCompactDown />
           </p>
         </a>
