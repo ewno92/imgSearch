@@ -1,23 +1,14 @@
-import React from "react";
-import { Navbar, Container } from "react-bootstrap";
+import React from 'react';
+import { Navbar, Container } from 'react-bootstrap';
 
 const Nav = () => {
-  return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="/">
-          <img
-            alt=""
-            src="/logo.svg"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{" "}
-          React Bootstrap
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
-  );
+	return (
+		<Navbar bg="dark" variant="dark">
+			<Container>
+				<Navbar.Brand href="/">저작권 무료 이미지</Navbar.Brand>
+			</Container>
+		</Navbar>
+	);
 };
 
 export default Nav;
