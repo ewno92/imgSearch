@@ -45,10 +45,20 @@ const Photo = ({ images }) => {
                         {`${image.likes} likes`}
                       </p>
                     </div>
-                    <div className="likes d-flex align-items-center justify-content-center">
+                    <div className="likes mx-2 d-flex align-items-center justify-content-center">
                       <p className="px-2">
                         <BsFillEyeFill className="mb-1" /> {image.views}
                       </p>
+                    </div>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <div className="download-container">
+                      <a href={image.largeImageURL} download="photo.jpg">
+                        <button>Download</button>
+                      </a>
                     </div>
                   </Col>
                 </Row>
