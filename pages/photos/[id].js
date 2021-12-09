@@ -57,7 +57,7 @@ const Photo = ({ images }) => {
                   <Col>
                     <div className="download-container">
                       <a href={image.largeImageURL} download="photo.jpg">
-                        <button>Download</button>
+                        <button>Download b</button>
                       </a>
                     </div>
                   </Col>
