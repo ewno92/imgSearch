@@ -1,16 +1,34 @@
 import React from "react";
+import Link from "next/link";
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import { Container, Row, Col } from "react-bootstrap";
 import { authenticate } from "pixabay-api";
 import { BsFillEyeFill } from "react-icons/bs";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import axios from "axios";
 const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 const { searchImages } = authenticate(PIXABAY_API_KEY);
 
 const Photo = ({ images }) => {
   const image = images.hits[0];
   console.log(image);
+
+  const handlowDownload = () => {
+    axios
+      .get(image.largeImageURL, {
+        responseType: "blob",
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${image.tags}.jpg`);
+        document.body.appendChild(link);
+        link.click();
+      });
+  };
+
   return (
     <div id="photo-page">
       <Layout>
@@ -56,9 +74,7 @@ const Photo = ({ images }) => {
                 <Row>
                   <Col>
                     <div className="download-container">
-                      <a href={image.largeImageURL} download="photo.jpg">
-                        <button>Download b</button>
-                      </a>
+                      <div onClick={handlowDownload}>click</div>
                     </div>
                   </Col>
                 </Row>
