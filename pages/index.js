@@ -15,14 +15,14 @@ const App = () => {
   const [imagesArray, setImagesArray] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
-  const [select, setSelect] = useState("images");
+  const [select, setSelect] = useState("");
   const [imgs, setImgs] = useState({});
 
   const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
   const fetchImages = (pageNumber, keyword) => {
-    const URL = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${keyword}&image_type=photo&per_page=12&page=${pageNumber}`;
-    console.log(URL);
+    const URL = `https://pixabay.com/api/${select}?key=${PIXABAY_API_KEY}&q=${keyword}&image_type=photo&per_page=12&page=${pageNumber}`;
+    console.log("URL::::", URL);
     axios
       .get(URL)
       .then((res) => {
@@ -66,6 +66,9 @@ const App = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(select);
+  }, [select]);
   return (
     <Layout>
       <Container
@@ -94,30 +97,32 @@ const App = () => {
       <Container fluid>
         <Row>
           <Col md={12}>
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={() => fetchImages(++pageNum, search)}
-              hasMore={pageNum < totalPages ? true : false}
-            >
-              <Masonry
-                breakpointCols={breakpointColumnsObj}
-                className="masonry-grid"
-                columnClassName="masonry-grid_column"
+            {!select && (
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={() => fetchImages(++pageNum, search)}
+                hasMore={pageNum < totalPages ? true : false}
               >
-                {imagesArray.map((image, index) => (
-                  <div
-                    key={index}
-                    className="img-container px-3"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      router.push(`/photos/${image.id}`);
-                    }}
-                  >
-                    <Img sylte={{ cursor: "pointer" }} {...image} />
-                  </div>
-                ))}
-              </Masonry>
-            </InfiniteScroll>
+                <Masonry
+                  breakpointCols={breakpointColumnsObj}
+                  className="masonry-grid"
+                  columnClassName="masonry-grid_column"
+                >
+                  {imagesArray.map((image, index) => (
+                    <div
+                      key={index}
+                      className="img-container px-3"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        router.push(`/photos/${image.id}`);
+                      }}
+                    >
+                      <Img sylte={{ cursor: "pointer" }} {...image} />
+                    </div>
+                  ))}
+                </Masonry>
+              </InfiniteScroll>
+            )}
           </Col>
         </Row>
       </Container>
